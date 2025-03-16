@@ -1,0 +1,61 @@
+version: '3.8'
+
+
+services:
+ backend:
+   image: harshsingh20/chat-backend:lts
+   build:
+     context: ./backend # Path to the backend Dockerfile
+     platforms:
+        - linux/amd64
+        - linux/arm64
+   ports:
+     - "8080:8080"
+
+
+ backend2:
+   image: harshsingh20/chat-backend2:lts
+   build:
+     context: ./backend # Path to the backend Dockerfile
+     platforms:
+        - linux/amd64
+        - linux/arm64
+   ports:
+     - "8082:8080"
+
+
+ auth-backend:
+   image: harshsingh20/auth-backend:lts
+   build:
+     context: ./auth-backend # Path to the backend Dockerfile
+     platforms:
+        - linux/amd64
+        - linux/arm64
+   ports:
+     - "5001:5001" 
+
+
+ frontend:
+   image: harshsingh20/frontend:lts
+   build:
+     context: ./client # Path to the frontend Dockerfile
+     platforms:
+        - linux/amd64
+        - linux/arm64
+   ports:
+     - "3000:3000"
+   depends_on:
+     - backend # Wait for backend service to be ready before starting frontend
+
+
+ frontend2:
+   image: harshsingh20/frontend2:lts
+   build:
+     context: ./client_2 # Path to the frontend Dockerfile
+     platforms:
+        - linux/amd64
+        - linux/arm64
+   ports:
+     - "3001:3000"
+   depends_on:
+     - backend # Wait for backend service to be ready before starting frontend
